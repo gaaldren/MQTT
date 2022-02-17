@@ -1,45 +1,74 @@
-
+import sys
+from tracemalloc import start
+from typing_extensions import Self
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
 import paho.mqtt.client as mqtt
 import time
+import socket
+from ui_subscriber import Ui_sub_form
 
-# аргументы подлкючения
-# rc 0 - conn succeeded
-# rc 1 - protocl error
-# rc 2 - invalid client id
-# rc 3 - the server is not availiable
-# rc 4 - wrong username or password
-# rc 5 - unauthorized
-def on_connect(client,userdata,flags,rc):
-    print('Подключение дало результат ' + str(rc))
+import threading
+from typing_extensions import Self
 
 
-
-def on_message(client,userdata,message):
-     #print('received message: ', str(message.payload.decode('utf-8')))
-     print('Получено сообщение ' + str(message.payload) + ' от топика ' + message.topic + ' с qos '+ str(message.qos))
-
-broker = "mqtt.eclipseprojects.io"
+class Dialog_sub(QDialog):
+        def __init__(self,parent = None):
+            super(Dialog_sub,self).__init__(parent)
 
 
-client = mqtt.Client('another_dev')
+            self.ui = Ui_sub_form()
+            self.ui.setupUi(self)
+            self.ui.textEdit.setReadOnly(True)
+            self.start()
+            self.drawIvent()
+    
+        
+        def start(self):
+            threading.Thread(target=self.take_message,daemon=True).start()
 
-# qos 0  - максимальная производительность, возможна потеря
-# qos 1  - гарантировано придет, но возможен дубликат 
-# qos 2  - гарантировано придет, пониженная производительность 
-# по умолчанию qos = 0
-try:
-    client.connect(broker)
-    client.subscribe('examp') # метод для подписки на топик
-    client.loop_start()
-    client.on_connect = on_connect
-    client.on_message = on_message
-except Exception as err:
-    print(err)
-    print('Отсутствует подключение к брокеру')
-#client.tls_set()
-#client.username_pw_set(username = 'qwerty',password = 11)
-#print('connection to a broker...')
+        def on_connect(self,client,userdata,flags,rc):
+            self.ui.label_for_connect_result.setText(('Подключение дало результат ' + str(rc) + '\n'))
 
-time.sleep(10) # время выполнения в сек
+        def on_message(self,client,userdata,message):
+            self.ui.textEdit.insertPlainText('Получено сообщение ' + str(message.payload.decode('utf-8')) + ' от топика ' + message.topic + ' с qos '+ str(message.qos) + '\n')
+            
+        
+        
+        def take_message(self):
+            try:
+                broker = "test.mosquitto.org"
+                client = mqtt.Client('another_dev')
 
-client.loop_end()
+                client.connect(broker)
+                client.subscribe('examp') 
+                client.loop_start()
+                
+                client.on_connect = self.on_connect
+                client.on_message = self.on_message
+
+
+            except socket.error as socketerror:
+                QMessageBox.warning(QMessageBox(), 'Ошибка' , str(socketerror))
+        
+        def drawIvent(self):
+            if (self.ui.textEdit.toPlainText() == 'Издатель отправил '):
+                self.setStyleSheet('background-color: red')
+            
+        
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = Dialog_sub()
+    window.show()
+    sys.exit(app.exec_())
+
+
+        # аргументы подлкючения
+        # rc 0 - conn succeeded
+        # rc 1 - protocl error
+        # rc 2 - invalid client id
+        # rc 3 - the server is not availiable
+        # rc 4 - wrong username or password
+        # rc 5 - unauthorized
