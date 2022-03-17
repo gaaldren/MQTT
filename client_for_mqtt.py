@@ -148,6 +148,9 @@ class MainWindow(QMainWindow):
         if message.topic == 'music/track1/stop':
             self.ui.textEdit_for_view.insertPlainText(message.topic + '  Track1 закончил проигрывание' + '\n')
             self.stop_track()
+        
+        if message.topic == 'mqtt/chat/android':
+            self.ui.textEdit_for_view.insertPlainText(message.topic + ' ' + message.payload.decode('utf-8') + '\n' )
 
     def take_message(self):
         broker = "test.mosquitto.org"
@@ -162,6 +165,7 @@ class MainWindow(QMainWindow):
         client.subscribe('device/work/ram')
         client.subscribe('music/track1/start')
         client.subscribe('music/track1/stop')
+        client.subscribe('mqtt/chat/android')
         client.loop_start()
         
         client.on_connect = self.on_connect
