@@ -14,10 +14,6 @@ import threading
 Window.clearcolor = (.9, .9, .9, 1)
 
 
-
-        
-
-
 class Container(GridLayout):
 
     def start_send(self):
@@ -34,12 +30,17 @@ class Container(GridLayout):
         if pubtop == 'mqtt/chat/android':
             self.ids.label_out.text = 'Вы отправили -> ' + text + '\n'
         
-        if pubtop == 'Top2':
-            self.ids.label_out.text = 'Select top2'
+        if pubtop == 'mqtt/pc/restart':
+            self.ids.label_out.text = 'Вы отправили -> <Перезагрузка>'
         
-        if pubtop == 'Top3':
-            self.ids.label_out.text = 'Select top3'
+        if pubtop == 'mqtt/file/get_text':
+            self.ids.label_out.text = 'Вы отправили -> <ASCII> '
         
+        if pubtop == 'mqtt/browser/open':
+            self.ids.label_out.text = 'Вы отправили -> <Открыть браузер> '
+        
+        if pubtop == 'mqtt/pc/get_screen':
+            self.ids.label_out.text = 'Вы отправили -> <Сделать скриншот> '
         client.publish(pubtop,text)
     
     def start_take(self):

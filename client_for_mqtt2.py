@@ -3,8 +3,9 @@ import PySide2
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-
-
+import pyautogui 
+import webbrowser
+from datetime import datetime
 import sys
 from email.mime import message
 from typing_extensions import Self
@@ -33,6 +34,7 @@ class MainWindow(QMainWindow):
         self.ui.btn_for_sendmessage2.clicked.connect(self.start_send)
         self.ui.textEdit_for_view2.setReadOnly(True)
 
+
         self.hdd = psutil.disk_usage('/')
 
         # массив для отправки сообщений с темой
@@ -56,7 +58,8 @@ class MainWindow(QMainWindow):
         threading.Thread(target=self.public,daemon=True).start()
 
     def public(self):
-        
+        now = datetime.now()
+        cur_time = now.strftime("%H:%M:%S")
         text = self.ui.lineEdit_for_writetext2.text()
         broker = "test.mosquitto.org" 
         client = mqtt.Client("Device")
@@ -65,23 +68,23 @@ class MainWindow(QMainWindow):
         subtop = self.ui.comboBox_for_select_topic2.currentText()
 
         if subtop == 'device/memorystatus/harddrive/c':
-            self.ui.textEdit_for_view2.insertPlainText('Вы отправили -> ' + str(self.hdd.free / (2**30))+ '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<'+ str(self.hdd.free / (2**30)) + '> ' + '\n')
         
         if subtop == 'device/work/cpu':
-            self.ui.textEdit_for_view2.insertPlainText('Вы отправили -> ' + str(psutil.cpu_percent(interval=1))+ '%' + '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<'+ str(psutil.cpu_percent(interval=1)) + '> ' + '%' + '\n')
         
         if subtop == 'mqtt/text/chat':
-            self.ui.textEdit_for_view2.insertPlainText('Вы отправили -> ' + text + '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<mqtt/text/chat>  '+ text + '\n')
         
         if subtop == 'device/work/ram':
             values = psutil.virtual_memory().percent
-            self.ui.textEdit_for_view2.insertPlainText('Вы отправили -> ' + str(values) + '%' + '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<'+str(values) + '> '+ '%' + '\n')
         
         if subtop == 'music/track1/start':
-            self.ui.textEdit_for_view2.insertPlainText('Вы отправили -> ' + 'команду старт для Track1' + '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<команду старт для Track1> ' + '\n')
         
         if subtop == 'music/track1/stop':
-            self.ui.textEdit_for_view2.insertPlainText('Вы отправили -> ' + 'команду стоп для Track1' + '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<команду стоп для Track1> ' + '\n')
 
         
         client.publish(subtop,text)
@@ -128,27 +131,37 @@ class MainWindow(QMainWindow):
         self.ui.label_for_connect_result2.setText(('Подключение дало результат ' + str(rc) + '\n'))
 
     def on_message(self,client,userdata,message):
+        now = datetime.now()
+        cur_time = now.strftime("%H:%M:%S")
         if message.topic == 'mqtt/example1':
-            self.ui.textEdit_for_view2.insertPlainText(message.topic + ' ' + message.payload.decode('utf-8') + '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + message.payload.decode('utf-8') + '\n')
         
         if message.topic == 'device/ip':
             h_name = socket.gethostname()
             IP_addres = socket.gethostbyname(h_name)
-            self.ui.textEdit_for_view2.insertPlainText(message.topic + ' ' + IP_addres + '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + IP_addres + '\n')
         
         if message.topic == 'mqtt/picture':
             self.take_picture()
-            self.ui.textEdit_for_view2.insertPlainText(message.topic + '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + '\n')
         
         if message.topic == 'mqtt/get_weather/temp':
             temp,status = self.weather()
-            self.ui.textEdit_for_view2.insertPlainText(message.topic + ' ' + str(temp) + '°' + '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] '+ message.topic + ' ' + str(temp) + '°' + '\n')
         
         if message.topic == 'mqtt/get_weather/status':
             temp,status = self.weather()
-            self.ui.textEdit_for_view2.insertPlainText(message.topic + ' ' + str(status) + '\n')
-            
-
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + str(status) + '\n')
+        
+        if message.topic == 'mqtt/browser/open':
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + '<Браузер>' + '\n')
+            webbrowser.open_new_tab('https://www.vyatsu.ru')
+        
+        if message.topic == 'mqtt/pc/get_screen':
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + '<Скриншот>' + '\n')
+            image = pyautogui.screenshot()
+            image.save('screen.png')
+    
     def take_message(self):
         broker = "test.mosquitto.org"
         client = mqtt.Client()
@@ -159,6 +172,8 @@ class MainWindow(QMainWindow):
         client.subscribe('mqtt/picture')
         client.subscribe('mqtt/get_weather/temp')
         client.subscribe('mqtt/get_weather/status')
+        client.subscribe('mqtt/browser/open')
+        client.subscribe('mqtt/pc/get_screen')
 
         client.loop_start()
         
