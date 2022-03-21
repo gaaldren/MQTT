@@ -27,20 +27,21 @@ class Container(GridLayout):
         
         pubtop = self.ids.spin_top.text
         
-        if pubtop == 'mqtt/chat/android':
+        if pubtop == 'mqtt/chat/client_1/android':
             self.ids.label_out.text = 'Вы отправили -> ' + text + '\n'
         
-        if pubtop == 'mqtt/pc/restart':
+        if pubtop == 'mqtt/pc/client_1/restart':
             self.ids.label_out.text = 'Вы отправили -> <Перезагрузка>'
         
-        if pubtop == 'mqtt/file/get_text':
+        if pubtop == 'mqtt/file/client_1/get_text':
             self.ids.label_out.text = 'Вы отправили -> <ASCII> '
         
-        if pubtop == 'mqtt/browser/open':
+        if pubtop == 'mqtt/browser/client_2/open':
             self.ids.label_out.text = 'Вы отправили -> <Открыть браузер> '
         
-        if pubtop == 'mqtt/pc/get_screen':
+        if pubtop == 'mqtt/pc/client_2/get_screen':
             self.ids.label_out.text = 'Вы отправили -> <Сделать скриншот> '
+        
         client.publish(pubtop,text)
     
     def start_take(self):

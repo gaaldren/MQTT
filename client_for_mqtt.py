@@ -171,14 +171,14 @@ class MainWindow(QMainWindow):
             self.ui.textEdit_for_view.insertPlainText( '['+ cur_time + '] '+ message.topic + '  Track1 закончил проигрывание' + '\n')
             self.stop_track()
         
-        if message.topic == 'mqtt/chat/android':
+        if message.topic == 'mqtt/chat/client_1/android':
             self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + message.payload.decode('utf-8') + '\n' )
 
-        if message.topic == 'mqtt/pc/restart': 
+        if message.topic == 'mqtt/pc/client_1/restart': 
             self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + '<Перезагрузка> ' + '\n' )
             self.restart()
         
-        if message.topic == 'mqtt/file/get_text':
+        if message.topic == 'mqtt/file/client_1/get_text':
             self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + '<Получить ascii> ' + '\n' + '\n' )
             self.get_ascii()
             
@@ -196,9 +196,9 @@ class MainWindow(QMainWindow):
         client.subscribe('device/work/ram')
         client.subscribe('music/track1/start')
         client.subscribe('music/track1/stop')
-        client.subscribe('mqtt/chat/android')
-        client.subscribe('mqtt/pc/restart')
-        client.subscribe('mqtt/file/get_text')
+        client.subscribe('mqtt/chat/client_1/android')
+        client.subscribe('mqtt/pc/client_1/restart')
+        client.subscribe('mqtt/file/client_1/get_text')
         client.loop_start()
         
         client.on_connect = self.on_connect

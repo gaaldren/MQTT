@@ -153,11 +153,11 @@ class MainWindow(QMainWindow):
             temp,status = self.weather()
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + str(status) + '\n')
         
-        if message.topic == 'mqtt/browser/open':
+        if message.topic == 'mqtt/browser/client_2/open':
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + '<Браузер>' + '\n')
             webbrowser.open_new_tab('https://www.vyatsu.ru')
         
-        if message.topic == 'mqtt/pc/get_screen':
+        if message.topic == 'mqtt/pc/client_2/get_screen':
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + '<Скриншот>' + '\n')
             image = pyautogui.screenshot()
             image.save('screen.png')
@@ -172,8 +172,8 @@ class MainWindow(QMainWindow):
         client.subscribe('mqtt/picture')
         client.subscribe('mqtt/get_weather/temp')
         client.subscribe('mqtt/get_weather/status')
-        client.subscribe('mqtt/browser/open')
-        client.subscribe('mqtt/pc/get_screen')
+        client.subscribe('mqtt/browser/client_2/open')
+        client.subscribe('mqtt/pc/client_2/get_screen')
 
         client.loop_start()
         
