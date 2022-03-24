@@ -29,7 +29,7 @@ install:
   - ls -la
   - ls bin/ -l
   - gem install dpl --pre
-  - dpl releases --token $github_token --file "bin/Android app-0.1-armeabi-v7a-debug.apk" --tag_name "v.0.3"
+  - dpl releases --token $github_token --file "bin/Android app-0.1-armeabi-v7a-debug.apk" --tag_name "v.0.1"
   - echo "TODO COMPILE 64bit"
   - ls -l /home/travis/
   - ls -l /home/travis/build/WISEPLAT/android_app/
