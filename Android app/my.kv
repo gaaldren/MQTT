@@ -1,0 +1,43 @@
+# #:kivy 2.0.0
+
+<Container>:
+    rows: 4
+    padding: 0
+    spacing: 0
+
+    BoxLayout:
+        orientation: 'vertical'    
+        Spinner:
+            id: spin_top
+            text: "topic"
+            values: 'mqtt/chat/client_1/android','mqtt/pc/client_1/restart','mqtt/file/client_1/get_text','mqtt/browser/client_2/open','mqtt/pc/client_2/get_screen'
+            size_hint: 1, 1
+            # on_text: root.on_spinner_select(self)
+        Label:
+            id: label_out
+            size_hint: 1, 10
+            text_size: root.width, None
+            size: self.texture_size
+            padding_x: 20
+            # text: root.on_message
+            color: 'black'
+            font_size: '20sp'
+            background_color: (128/255.0,128/255.0,128/255.0,1)
+            canvas.before:
+				Color:
+					rgba: self.background_color
+				Rectangle:
+					size: self.size
+					pos: self.pos
+            
+        
+        BoxLayout:
+            orientation: 'horizontal'
+            TextInput:
+                id: text_input 
+                size_hint: 0.7, 1
+            Button:
+                size_hint: 0.3,1
+                background_color: (0,0,1,.7)
+                text:'ОК'
+                on_release: root.start_send()
