@@ -48,7 +48,9 @@ class MainWindow(QMainWindow):
             'device/ip',
             'mqtt/picture',
             'mqtt/get_weather/temp',
-            'mqtt/get_weather/status'
+            'mqtt/get_weather/status',
+            'android/get_ip',
+            'android/get_download',
         ]
 
         self.ui.comboBox_for_select_topic.addItems(list_for_publish_client_1)
@@ -92,6 +94,13 @@ class MainWindow(QMainWindow):
         
         if pubtop == 'mqtt/get_weather/status':
             self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<запрос на статус погоды> ' + '\n')
+        
+        if pubtop == 'android/get_ip':
+            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<запрос на ip> ' + '\n')
+        
+        if pubtop == 'android/get_download':
+            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<запрос на скорость загрузки> ' + '\n')
+        
         
         client.publish(pubtop,text)
 

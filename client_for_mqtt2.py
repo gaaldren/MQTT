@@ -44,7 +44,9 @@ class MainWindow(QMainWindow):
             'device/work/cpu',
             'device/work/ram',
             'music/track1/start',
-            'music/track1/stop'
+            'music/track1/stop',
+            'android/get_ascii',
+            'android/sunrise_sunset'
         ]
 
         self.ui.comboBox_for_select_topic2.addItems(list_for_publish)
@@ -81,10 +83,16 @@ class MainWindow(QMainWindow):
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<'+str(values) + '> '+ '%' + '\n')
         
         if subtop == 'music/track1/start':
-            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<команду старт для Track1> ' + '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<команда старт для Track1> ' + '\n')
         
         if subtop == 'music/track1/stop':
-            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<команду стоп для Track1> ' + '\n')
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<команда стоп для Track1> ' + '\n')
+        
+        if subtop == 'android/get_ascii':
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на ascii> ' + '\n')
+        
+        if subtop == 'android/sunrise_sunset':
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на закат/рассвет> ' + '\n')
 
         
         client.publish(subtop,text)
