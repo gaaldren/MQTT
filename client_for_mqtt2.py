@@ -46,7 +46,8 @@ class MainWindow(QMainWindow):
             'music/track1/start',
             'music/track1/stop',
             'android/get_ascii',
-            'android/sunrise_sunset'
+            'android/sunrise_sunset',
+            'android/get_ip/preload',
         ]
 
         self.ui.comboBox_for_select_topic2.addItems(list_for_publish)
@@ -93,6 +94,9 @@ class MainWindow(QMainWindow):
         
         if subtop == 'android/sunrise_sunset':
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на закат/рассвет> ' + '\n')
+        
+        if subtop == 'android/get_ip/preload':
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на получение ip> ' + '\n')
 
         
         client.publish(subtop,text)
@@ -102,7 +106,6 @@ class MainWindow(QMainWindow):
         
     
     # ------------------------------------------------------------------------# 
-
 
 
     # def start_take_picture(self):

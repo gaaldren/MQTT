@@ -69,7 +69,7 @@ class Container(GridLayout):
 
     def get_ascii(self):
         self.ids.label_out.text = (
-'-------------------------------------- ' + '\n'
+# '-------------------------------------- ' + '\n'
     
 ' __    __     ______     ______   ____ \n'
 '/\ "-./  \   /\  __ \   /\__  _\ /\__  _\  \n'
@@ -77,7 +77,8 @@ class Container(GridLayout):
 ' \ \_\ \ \_\  \ \___\_\    \ \_\    \ \_\  \n'
 '  \/_/  \/_/   \/___/_/     \/_/     \/_/  \n'
  + '\n' 
-'-------------------------------------- ' + '\n' + '\n'
+# '-------------------------------------- ' + '\n' 
+ + '\n'
         )    
     @mainthread    
     def on_message(self,client,userdata,message):
@@ -102,6 +103,14 @@ class Container(GridLayout):
         if message.topic == 'android/sunrise_sunset':
             self.sunrise_sunset()
         
+        if message.topic == 'android/get_ip/preload':
+            conn = http.client.HTTPConnection("ifconfig.me")
+            conn.request("GET", "/ip")
+            out = conn.getresponse().read()
+            broker = "test.mosquitto.org" 
+            client = mqtt.Client("Device")
+            client.connect(broker)
+            client.publish('mqtt/example1',out)
 
     def take_message(self):
         broker = "test.mosquitto.org"
@@ -114,14 +123,13 @@ class Container(GridLayout):
         client.subscribe('android/get_download')
         client.subscribe('android/get_ascii')
         client.subscribe('android/sunrise_sunset')
+        client.subscribe('android/get_ip/preload')
         client.loop_start()
               
         # while True:
         client.on_message = self.on_message
         # ---> бесконечный цикл вызывает огромное потребление ресурсов цп 
         
-
-
 class MyApp (App):
     def build(self):
         return Container()  
