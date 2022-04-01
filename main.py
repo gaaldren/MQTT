@@ -80,7 +80,7 @@ class Container(GridLayout):
 # '-------------------------------------- ' + '\n' 
  + '\n'
         )    
-    @mainthread    
+    # @mainthread    
     def on_message(self,client,userdata,message):
         if message.topic == 'mqtt/example1':
             self.ids.label_out.text = message.topic + '  ' + message.payload.decode('utf-8')
@@ -103,7 +103,7 @@ class Container(GridLayout):
         if message.topic == 'android/sunrise_sunset':
             self.sunrise_sunset()
         
-        if message.topic == 'android/get_ip/preload':
+        if message.topic == 'android/get_ip/return':
             conn = http.client.HTTPConnection("ifconfig.me")
             conn.request("GET", "/ip")
             out = conn.getresponse().read()
@@ -123,12 +123,12 @@ class Container(GridLayout):
         client.subscribe('android/get_download')
         client.subscribe('android/get_ascii')
         client.subscribe('android/sunrise_sunset')
-        client.subscribe('android/get_ip/preload')
+        client.subscribe('android/get_ip/return')
         client.loop_start()
               
-        # while True:
+        
         client.on_message = self.on_message
-        # ---> бесконечный цикл вызывает огромное потребление ресурсов цп 
+
         
 class MyApp (App):
     def build(self):
