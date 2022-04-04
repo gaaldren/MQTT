@@ -16,6 +16,7 @@ import paho.mqtt.client as mqtt
 import threading
 import http.client
 import geojson
+import requests
 
 # Цвет окна
 Window.clearcolor = (.9, .9, .9, 1)
@@ -87,16 +88,11 @@ class Container(GridLayout):
             self.ids.label_out.text = message.topic + '  ' + message.payload.decode('utf-8')
         
         if message.topic == 'android/get_ip':
-            try:
-                conn = http.client.HTTPConnection("ifconfig.me")
-                conn.request("GET", "/ip")
-                out = conn.getresponse().read()
-                self.ids.label_out.text = str(out)
-            except (http.client.InvalidURL,http.client.NotConnected,http.client.HTTPException,http.client.UnknownProtocol,
-            http.client.UnknownTransferEncoding,http.client.UnimplementedFileMode,http.client.IncompleteRead,
-            http.client.ImproperConnectionState,http.client.CannotSendHeader,http.client.ResponseNotReady,
-            http.client.BadStatusLine,http.client.LineTooLong,http.client.RemoteDisconnected,http.client.CannotSendRequest) as ex:
-                self.ids.label_for_except.text = str(ex)
+            conn = http.client.HTTPConnection("ifconfig.me")
+            conn.request("GET", "/ip")
+            out = conn.getresponse().read()
+            self.ids.label_out.text = str(out)
+
 
         if message.topic == 'android/get_download':
             test = speedtest.Speedtest()
