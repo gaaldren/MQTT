@@ -15,7 +15,7 @@
             # on_text: root.on_spinner_select(self)
         Label:
             id: label_out
-            size_hint: 1, 10
+            size_hint: 1, 5
             text_size: root.width, None
             size: self.texture_size
             padding_x: 20
@@ -23,12 +23,17 @@
             color: 'black'
             font_size: '20sp'
             background_color: (128/255.0,128/255.0,128/255.0,1)
-            canvas.before:
-				Color:
-					rgba: self.background_color
-				Rectangle:
-					size: self.size
-					pos: self.pos
+        Label:
+            id: label_for_except
+            size_hint: 1, 5
+            color: 'black'
+            
+            # canvas.before:
+			# 	Color:
+			# 		rgba: self.background_color
+			# 	Rectangle:
+			# 		size: self.size
+			# 		pos: self.pos
             
         
         BoxLayout:
