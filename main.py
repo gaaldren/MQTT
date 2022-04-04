@@ -17,6 +17,11 @@ import threading
 import http.client
 import geojson
 import requests
+import urllib3
+import chardet
+import charset_normalizer
+import idna
+
 
 # Цвет окна
 Window.clearcolor = (.9, .9, .9, 1)
