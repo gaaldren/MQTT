@@ -15,6 +15,7 @@ from pyowm.utils.config import get_default_config
 import paho.mqtt.client as mqtt
 import threading
 import http.client
+import geojson
 
 # Цвет окна
 Window.clearcolor = (.9, .9, .9, 1)
