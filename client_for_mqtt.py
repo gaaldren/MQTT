@@ -28,8 +28,10 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.setWindowTitle('Клиент 1')
+        
         self.ui.btn_close.clicked.connect(self.close)
         self.ui.btn_ghost.clicked.connect(lambda: self.showMinimized())
+
         self.ui.lineEdit_for_writetext.setPlaceholderText('Ввести текст для mqtt/example1')
         self.ui.textEdit_for_view.setPlaceholderText('Здесь отображаются сообщения')
         self.ui.pushButton_page1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_1))
@@ -41,12 +43,13 @@ class MainWindow(QMainWindow):
 
         self.ui._old_pos = None
         self.center()
+
+
         pygame.mixer.init()
         self.playing = False
 
         
         self.ui.textEdit_for_view.setReadOnly(True)
-        self.setWindowIcon(QIcon('ico.ico'))
         self.hdd = psutil.disk_usage('/')
         self.start_take()
         self.ui.btn_for_sendmessage.clicked.connect(self.start_send)

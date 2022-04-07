@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'client2reVEJN.ui'
+## Form generated from reading UI file 'client2TkeRkT.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -154,6 +154,7 @@ class Ui_MainWindow(object):
         self.textEdit.setStyleSheet(u"border-width: 0px;\n"
 "border-style: solid;\n"
 "border-color: rgb(255, 255, 255);")
+        self.textEdit.setReadOnly(True)
         self.stackedWidget.addWidget(self.page_2)
         MainWindow.setCentralWidget(self.centralwidget)
 

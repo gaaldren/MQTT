@@ -38,6 +38,7 @@ class MainWindow(QMainWindow):
         self.start_take()
         self.ui.btn_for_sendmessage2.clicked.connect(self.start_send)
         self.ui.textEdit_for_view2.setReadOnly(True)
+
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
@@ -219,8 +220,8 @@ class MainWindow(QMainWindow):
         
         # client.on_connect = self.on_connect
 
-        while True:
-            client.on_message = self.on_message
+        # while True:
+        client.on_message = self.on_message
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
