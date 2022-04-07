@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
         
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.setWindowTitle('Клиент 1')
+
         
         self.ui.btn_close.clicked.connect(self.close)
         self.ui.btn_ghost.clicked.connect(lambda: self.showMinimized())
@@ -241,8 +241,8 @@ class MainWindow(QMainWindow):
         
         # client.on_connect = self.on_connect
         
-        while True:
-            client.on_message = self.on_message
+        # while True:
+        client.on_message = self.on_message
 
 
 if __name__ == "__main__":

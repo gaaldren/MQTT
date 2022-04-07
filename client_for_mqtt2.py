@@ -27,7 +27,6 @@ class MainWindow(QMainWindow):
         
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.setWindowTitle('Клиент 2')
         self.ui.pushButton_close.clicked.connect(self.close)
         self.ui.pushButton_ghost_w.clicked.connect(lambda: self.showMinimized())
         self.ui.lineEdit_for_writetext2.setPlaceholderText('Ввести текст для mqtt/text/chat')
