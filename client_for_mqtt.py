@@ -28,10 +28,19 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.setWindowTitle('Клиент 1')
+        self.ui.btn_close.clicked.connect(self.close)
+        self.ui.btn_ghost.clicked.connect(lambda: self.showMinimized())
         self.ui.lineEdit_for_writetext.setPlaceholderText('Ввести текст для mqtt/example1')
+        self.ui.textEdit_for_view.setPlaceholderText('Здесь отображаются сообщения')
+        self.ui.pushButton_page1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_1))
+        self.ui.pushButton_page2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_3))
 
         # self.ui.textEdit_for_view.setStyleSheet('background-color: rgb(76, 79, 84)')
+        self.setWindowFlags(Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
 
+        self.ui._old_pos = None
+        self.center()
         pygame.mixer.init()
         self.playing = False
 
@@ -61,7 +70,23 @@ class MainWindow(QMainWindow):
         # self.pubtop = 'mqtt/example1' # для отправки 
         # self.subtop = 'mqtt/example2' # для принятия иными словами подписка
     
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+
+    def mouseMoveEvent(self, event):
+        try:
+            delta = QPoint(event.globalPos() - self.oldPos)
+            self.move(self.x() + delta.x(), self.y() + delta.y())
+            self.oldPos = event.globalPos()
+        except AttributeError:
+            pass
 
 
 
@@ -128,8 +153,8 @@ class MainWindow(QMainWindow):
     def start_take(self):
         threading.Thread(target=self.take_message,daemon=True).start()
     
-    def on_connect(self,client,userdata,flags,rc):
-        self.ui.label_for_connect_result.setText(('Подключение дало результат ' + str(rc) + '\n'))
+    # def on_connect(self,client,userdata,flags,rc):
+    #     self.ui.label_for_connect_result.setText(('Подключение дало результат ' + str(rc) + '\n'))
     
     def restart(self): 
         os.system("shutdown /r /t 1")
@@ -211,7 +236,7 @@ class MainWindow(QMainWindow):
         client.subscribe('mqtt/file/client_1/get_text')
         client.loop_start()
         
-        client.on_connect = self.on_connect
+        # client.on_connect = self.on_connect
         
         while True:
             client.on_message = self.on_message

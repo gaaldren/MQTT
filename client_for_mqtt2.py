@@ -28,11 +28,21 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.setWindowTitle('Клиент 2')
+        self.ui.pushButton_close.clicked.connect(self.close)
+        self.ui.pushButton_ghost_w.clicked.connect(lambda: self.showMinimized())
         self.ui.lineEdit_for_writetext2.setPlaceholderText('Ввести текст для mqtt/text/chat')
+        self.ui.pushButton_page1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page))
+        self.ui.pushButton_page2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
+
 
         self.start_take()
         self.ui.btn_for_sendmessage2.clicked.connect(self.start_send)
         self.ui.textEdit_for_view2.setReadOnly(True)
+        self.setWindowFlags(Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+
+        self.ui._old_pos = None
+        self.center()
 
 
         self.hdd = psutil.disk_usage('/')
@@ -56,6 +66,25 @@ class MainWindow(QMainWindow):
         # self.subtop = 'mqtt/example2' # для отправки 
 
         # массив подписок 
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+
+    def mouseMoveEvent(self, event):
+        try:
+            delta = QPoint(event.globalPos() - self.oldPos)
+            self.move(self.x() + delta.x(), self.y() + delta.y())
+            self.oldPos = event.globalPos()
+        except AttributeError:
+            pass
+
+
 
     def start_send(self):
         threading.Thread(target=self.public,daemon=True).start()
@@ -138,8 +167,8 @@ class MainWindow(QMainWindow):
         return temp,status
 
         
-    def on_connect(self,client,userdata,flags,rc):
-        self.ui.label_for_connect_result2.setText(('Подключение дало результат ' + str(rc) + '\n'))
+    # def on_connect(self,client,userdata,flags,rc):
+    #     self.ui.label_for_connect_result2.setText(('Подключение дало результат ' + str(rc) + '\n'))
 
     def on_message(self,client,userdata,message):
         now = datetime.now()
@@ -188,7 +217,7 @@ class MainWindow(QMainWindow):
 
         client.loop_start()
         
-        client.on_connect = self.on_connect
+        # client.on_connect = self.on_connect
 
         while True:
             client.on_message = self.on_message
