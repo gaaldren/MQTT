@@ -30,6 +30,13 @@ class MainWindow(QMainWindow):
         self.ui.pushButton_close.clicked.connect(self.close)
         self.ui.pushButton_ghost_w.clicked.connect(lambda: self.showMinimized())
         self.ui.lineEdit_for_writetext2.setPlaceholderText('Ввести текст для mqtt/text/chat')
+        self.ui.textEdit_for_view2.setPlaceholderText( 'Здесь отображаются сообщения ' + '\n'
+      ' __    __     ______     ______   _     \n'
+      '/\ -./  \   /\  __ \   /\__  _\ /\__  _\  \n'
+      '\ \ \-./\ \  \ \ \/\_\  \/_/\ \/ \/_/\ \/  \n'
+      ' \ \_\ \ \_\  \ \___\_\    \ \_\    \ \_\  \n'
+      '  \/_/  \/_/   \/___/_/     \/_/     \/_/  \n'
+        + '\n')
         self.ui.pushButton_page1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page))
         self.ui.pushButton_page2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
 
@@ -94,7 +101,8 @@ class MainWindow(QMainWindow):
         cur_time = now.strftime("%H:%M:%S")
         text = self.ui.lineEdit_for_writetext2.text()
         broker = "test.mosquitto.org" 
-        client = mqtt.Client("Device")
+        client = mqtt.Client()
+        # client.connect(host="localhost", port=1883, keepalive=60)
         client.connect(broker)
 
         subtop = self.ui.comboBox_for_select_topic2.currentText()
@@ -205,7 +213,7 @@ class MainWindow(QMainWindow):
     def take_message(self):
         broker = "test.mosquitto.org"
         client = mqtt.Client()
-
+        # client.connect(host="localhost", port=1883, keepalive=60)
         client.connect(broker)
         client.subscribe('mqtt/example1') 
         client.subscribe('device/ip')
