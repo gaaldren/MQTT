@@ -106,10 +106,10 @@ class MainWindow(QMainWindow):
         now = datetime.now()
         cur_time = now.strftime("%H:%M:%S")  
         text = self.ui.lineEdit_for_writetext.text()
-        broker = "test.mosquitto.org" 
+        # broker = "test.mosquitto.org" 
         client = mqtt.Client()
-        # client.connect(host="localhost", port=1883, keepalive=60)
-        client.connect(broker)
+        client.connect(host="localhost", port=1883, keepalive=60)
+        # client.connect(broker)
 
         pubtop = self.ui.comboBox_for_select_topic.currentText()
 
@@ -229,11 +229,11 @@ class MainWindow(QMainWindow):
             
 
     def take_message(self):
-        broker = "test.mosquitto.org"
+        # broker = "test.mosquitto.org"
         client = mqtt.Client()
-        # client.connect(host="localhost", port=1883, keepalive=60)
+        client.connect(host="localhost", port=1883, keepalive=60)
        
-        client.connect(broker)
+        # client.connect(broker)
         # subtop = self.list_for_take_client_1
         
         client.subscribe('device/memorystatus/harddrive/c') 

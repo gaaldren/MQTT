@@ -100,10 +100,10 @@ class MainWindow(QMainWindow):
         now = datetime.now()
         cur_time = now.strftime("%H:%M:%S")
         text = self.ui.lineEdit_for_writetext2.text()
-        broker = "test.mosquitto.org" 
+        # broker = "test.mosquitto.org" 
         client = mqtt.Client()
-        # client.connect(host="localhost", port=1883, keepalive=60)
-        client.connect(broker)
+        client.connect(host="localhost", port=1883, keepalive=60)
+        # client.connect(broker)
 
         subtop = self.ui.comboBox_for_select_topic2.currentText()
 
@@ -211,10 +211,10 @@ class MainWindow(QMainWindow):
             image.save('screen.png')
     
     def take_message(self):
-        broker = "test.mosquitto.org"
+        # broker = "test.mosquitto.org"
         client = mqtt.Client()
-        # client.connect(host="localhost", port=1883, keepalive=60)
-        client.connect(broker)
+        client.connect(host="localhost", port=1883, keepalive=60)
+        # client.connect(broker)
         client.subscribe('mqtt/example1') 
         client.subscribe('device/ip')
         client.subscribe('mqtt/picture')
