@@ -32,6 +32,7 @@ class MainWindow(QMainWindow):
         self.ui.btn_close.clicked.connect(self.close)
         self.ui.btn_ghost.clicked.connect(lambda: self.showMinimized())
 
+
         self.ui.lineEdit_for_writetext.setPlaceholderText('Ввести текст для mqtt/example1')
         self.ui.textEdit_for_view.setPlaceholderText( 'Здесь отображаются сообщения ' + '\n'
       ' __    __     ______     ______   __     \n'
@@ -43,7 +44,6 @@ class MainWindow(QMainWindow):
         self.ui.pushButton_page1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_1))
         self.ui.pushButton_page2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_3))
 
-        # self.ui.textEdit_for_view.setStyleSheet('background-color: rgb(76, 79, 84)')
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
@@ -60,7 +60,6 @@ class MainWindow(QMainWindow):
         self.start_take()
         self.ui.btn_for_sendmessage.clicked.connect(self.start_send)
 
-        # массив для отправки сообщений с темой 
         list_for_publish_client_1 = [
             'mqtt/example1',
             'device/ip',
@@ -72,13 +71,7 @@ class MainWindow(QMainWindow):
         ]
 
         self.ui.comboBox_for_select_topic.addItems(list_for_publish_client_1)
-        
 
-        # массив подписок 
-
-        # self.pubtop = 'mqtt/example1' # для отправки 
-        # self.subtop = 'mqtt/example2' # для принятия иными словами подписка
-    
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
@@ -106,10 +99,9 @@ class MainWindow(QMainWindow):
         now = datetime.now()
         cur_time = now.strftime("%H:%M:%S")  
         text = self.ui.lineEdit_for_writetext.text()
-        # broker = "test.mosquitto.org" 
+        broker = "test.mosquitto.org" 
         client = mqtt.Client()
-        client.connect(host="localhost", port=1883, keepalive=60)
-        # client.connect(broker)
+        client.connect(broker)
 
         pubtop = self.ui.comboBox_for_select_topic.currentText()
 
@@ -142,12 +134,6 @@ class MainWindow(QMainWindow):
         
         self.ui.lineEdit_for_writetext.clear()
         
-    
-    # ------------------------------------------------------------------------# 
- 
-
-    # def forever_potok(self): 
-    #     threading.Thread(target=self.start_track,daemon=True).start()
 
     def start_track(self):
         pygame.mixer.music.load('Track1.mp3')
@@ -229,12 +215,12 @@ class MainWindow(QMainWindow):
             
 
     def take_message(self):
-        # broker = "test.mosquitto.org"
-        client = mqtt.Client()
-        client.connect(host="localhost", port=1883, keepalive=60)
+        broker = "test.mosquitto.org"
+        client = mqtt.Client("cl1")
+        
        
-        # client.connect(broker)
-        # subtop = self.list_for_take_client_1
+        client.connect(broker)
+        
         
         client.subscribe('device/memorystatus/harddrive/c') 
         client.subscribe('device/work/cpu')
@@ -245,9 +231,9 @@ class MainWindow(QMainWindow):
         client.subscribe('mqtt/chat/client_1/android')
         client.subscribe('mqtt/pc/client_1/restart')
         client.subscribe('mqtt/file/client_1/get_text')
+
         client.loop_start()
         
-        # client.on_connect = self.on_connect
         
         # while True:
         client.on_message = self.on_message

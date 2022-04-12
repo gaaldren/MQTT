@@ -69,10 +69,6 @@ class MainWindow(QMainWindow):
 
         self.ui.comboBox_for_select_topic2.addItems(list_for_publish)
 
-        # self.pubtop = 'mqtt/example1' # для принятия иными словами подписка
-        # self.subtop = 'mqtt/example2' # для отправки 
-
-        # массив подписок 
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
@@ -100,10 +96,9 @@ class MainWindow(QMainWindow):
         now = datetime.now()
         cur_time = now.strftime("%H:%M:%S")
         text = self.ui.lineEdit_for_writetext2.text()
-        # broker = "test.mosquitto.org" 
+        broker = "test.mosquitto.org" 
         client = mqtt.Client()
-        client.connect(host="localhost", port=1883, keepalive=60)
-        # client.connect(broker)
+        client.connect(broker)
 
         subtop = self.ui.comboBox_for_select_topic2.currentText()
 
@@ -142,12 +137,6 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit_for_writetext2.clear()
         
     
-    # ------------------------------------------------------------------------# 
-
-
-    # def start_take_picture(self):
-    #     threading.Thread(target=self.take_picture,daemon=True).start()
-    
     def start_take(self):
         threading.Thread(target=self.take_message,daemon=True).start()
 
@@ -156,12 +145,7 @@ class MainWindow(QMainWindow):
         msg.setWindowTitle('Кролик')
         msg.setIconPixmap('krolik.jpg')
         msg.exec()
-
-        # self.ui.textEdit_for_view2.clear()
     
-    # def forever_take_picture(self):
-    #     threading.Thread(target=self.take_picture,daemon=True).start()
-
     def weather(self):
         config_dict = get_default_config()
         config_dict['language'] = 'ru'
@@ -175,8 +159,6 @@ class MainWindow(QMainWindow):
         return temp,status
 
         
-    # def on_connect(self,client,userdata,flags,rc):
-    #     self.ui.label_for_connect_result2.setText(('Подключение дало результат ' + str(rc) + '\n'))
 
     def on_message(self,client,userdata,message):
         now = datetime.now()
@@ -211,10 +193,10 @@ class MainWindow(QMainWindow):
             image.save('screen.png')
     
     def take_message(self):
-        # broker = "test.mosquitto.org"
-        client = mqtt.Client()
-        client.connect(host="localhost", port=1883, keepalive=60)
-        # client.connect(broker)
+        broker = "test.mosquitto.org"
+        client = mqtt.Client("cl2")
+        
+        client.connect(broker)
         client.subscribe('mqtt/example1') 
         client.subscribe('device/ip')
         client.subscribe('mqtt/picture')
@@ -224,8 +206,6 @@ class MainWindow(QMainWindow):
         client.subscribe('mqtt/pc/client_2/get_screen')
 
         client.loop_start()
-        
-        # client.on_connect = self.on_connect
 
         # while True:
         client.on_message = self.on_message
