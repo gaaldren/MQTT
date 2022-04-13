@@ -1,4 +1,3 @@
-import speedtest
 import kivy
 from kivy.app import App
 from kivy.uix.button import Button
@@ -10,17 +9,11 @@ from kivy.graphics import Color, Rectangle
 from kivy.core.window import Window
 from kivy.clock import mainthread
 
-from pyowm.owm import OWM
-from pyowm.utils.config import get_default_config
+from plyer import vibrator,tts
 import paho.mqtt.client as mqtt
 import threading
 import http.client
-import geojson
-import requests
-import urllib3
-import chardet
-import charset_normalizer
-import idna
+
 
 
 # Цвет окна
@@ -60,23 +53,10 @@ class Container(GridLayout):
         
         client.publish(pubtop,text)
     
-    # def start_take(self):
-    #     threading.Thread(target=self.take_message,daemon=True).start()
-    def sunrise_sunset(self):
-        config_dict = get_default_config()
-        config_dict['language'] = 'ru'
-        owm =  OWM('472d111f15c9d5266faa15de9a0bc03c', config_dict)
-        place = 'Киров'
-        mgr = owm.weather_manager()
-        observation = mgr.weather_at_place(place)
-        weather = observation.weather
-        sunrise = weather.sunrise_time(timeformat ='iso')
-        sunset = weather.sunset_time(timeformat = 'iso')
-        self.ids.label_out.text = 'Восход: ' + str(sunrise) + '\n'+ 'Закат: ' + str(sunset)
+
 
     def get_ascii(self):
         self.ids.label_out.text = (
-# '-------------------------------------- ' + '\n'
     
 ' __    __     ______     ______   ____ \n'
 '/\ "-./  \   /\  __ \   /\__  _\ /\__  _\  \n'
@@ -84,50 +64,33 @@ class Container(GridLayout):
 ' \ \_\ \ \_\  \ \___\_\    \ \_\    \ \_\  \n'
 '  \/_/  \/_/   \/___/_/     \/_/     \/_/  \n'
  + '\n' 
-# '-------------------------------------- ' + '\n' 
+
  + '\n'
         )    
-    # @mainthread    
+  
     def on_message(self,client,userdata,message):
         if message.topic == 'mqtt/example1':
             self.ids.label_out.text = message.topic + '  ' + message.payload.decode('utf-8')
         
-        if message.topic == 'android/get_ip':
-            try:
-                conn = http.client.HTTPConnection("ifconfig.me")
-                self.ids.label_for_except.text = 'Подключение к ресурсу '
-                conn.request("GET", "/ip")
-                self.ids.label_for_except.text = 'Гет запрос положительно '
-                out = conn.getresponse().read()
-                self.ids.label_for_except.text = 'Чтение'
-                self.ids.label_out.text = str(out)
-            except (http.client.InvalidURL,http.client.NotConnected,http.client.HTTPException,http.client.UnknownProtocol,
-http.client.UnknownTransferEncoding,http.client.UnimplementedFileMode,http.client.IncompleteRead,
-http.client.ImproperConnectionState,http.client.CannotSendHeader,http.client.ResponseNotReady,
-http.client.BadStatusLine,http.client.LineTooLong,http.client.RemoteDisconnected,http.client.CannotSendRequest) as ex:
-                self.ids.label_out.text = str(ex)
-
-
-        if message.topic == 'android/get_download':
-            test = speedtest.Speedtest()
-            download = test.download()
-            download = round((download / 1024)/1024,2)
-            self.ids.label_out.text = message.topic + ' ' + str(download)
         
-        if message.topic == 'android/get_ascii':
-            self.get_ascii()
-        
-        if message.topic == 'android/sunrise_sunset':
-            self.sunrise_sunset()
-        
-        if message.topic == 'android/get_ip/return':
+        if message.topic == 'android/get_ip/return':   
             conn = http.client.HTTPConnection("ifconfig.me")
             conn.request("GET", "/ip")
             out = conn.getresponse().read()
             broker = "test.mosquitto.org" 
             client = mqtt.Client("Device")
             client.connect(broker)
-            client.publish('mqtt/example1',out)
+            client.publish('mqtt/chat/client_1/android',out)
+            
+        if message.topic == 'android/get_ascii':
+            self.get_ascii()
+
+        if message.topic == 'android/vibro': 
+            vibrator.vibrate(3)
+            self.ids.label_out.text = 'работает'
+        
+        if message.topic == 'android/tts':
+            tts.speak('Hello friend')
 
     def take_message(self):
         broker = "test.mosquitto.org"
@@ -136,11 +99,12 @@ http.client.BadStatusLine,http.client.LineTooLong,http.client.RemoteDisconnected
         client.connect(broker)
 
         client.subscribe('mqtt/example1')
-        client.subscribe('android/get_ip')
-        client.subscribe('android/get_download')
-        client.subscribe('android/get_ascii')
-        client.subscribe('android/sunrise_sunset')
         client.subscribe('android/get_ip/return')
+        client.subscribe('android/vibro')
+        client.subscribe('android/get_ascii')
+        client.subscribe('android/tts')
+
+
         client.loop_start()
               
         

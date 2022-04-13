@@ -65,6 +65,7 @@ class MainWindow(QMainWindow):
             'android/get_ascii',
             'android/sunrise_sunset',
             'android/get_ip/return',
+            'android/tts'
         ]
 
         self.ui.comboBox_for_select_topic2.addItems(list_for_publish)
@@ -129,6 +130,9 @@ class MainWindow(QMainWindow):
         
         if subtop == 'android/get_ip/return':
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на получение ip> ' + '\n')
+        
+        if subtop == 'android/tts':
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на речь> ' + '\n')
 
         
         client.publish(subtop,text)
