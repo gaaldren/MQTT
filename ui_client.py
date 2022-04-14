@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'clientbgRyri.ui'
+## Form generated from reading UI file 'clientCWqLDR.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -132,8 +132,9 @@ class Ui_MainWindow(object):
         font3 = QFont()
         font3.setFamily(u"Montserrat")
         self.comboBox_for_select_topic.setFont(font3)
-        self.comboBox_for_select_topic.setStyleSheet(u"background-color: rgb(76, 79, 84);\n"
+        self.comboBox_for_select_topic.setStyleSheet(u"background-color: #37393d;\n"
 "color: white;\n"
+"border-radius: 1px solid;\n"
 "\n"
 "")
         self.lineEdit_for_writetext = QLineEdit(self.page_1)
@@ -159,7 +160,8 @@ class Ui_MainWindow(object):
         self.textEdit.setGeometry(QRect(3, 0, 701, 361))
         self.textEdit.setStyleSheet(u"border-width: 0px;\n"
 "border-style: solid;\n"
-"border-color: rgb(255, 255, 255);")
+"border-color: rgb(255, 255, 255);\n"
+"color: rgb(255, 255, 255);")
         self.textEdit.setReadOnly(True)
         self.stackedWidget.addWidget(self.page_3)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -187,6 +189,13 @@ class Ui_MainWindow(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">1. mqtt/example1 \u2014 \u0442\u043e\u043f\u0438\u043a, \u043e\u0442\u0432\u0435\u0447\u0430\u044e\u0449\u0438\u0439 \u0437\u0430 \u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0443 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0439.</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">2. device/ip \u2014 \u0442\u043e\u043f\u0438\u043a, \u043f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u044e\u0449\u0438\u0439"
+                        " ip \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430. </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">3. mqtt/picture \u2014 \u0442\u043e\u043f\u0438\u043a, \u0432\u044b\u0437\u044b\u0432\u0430\u044e\u0449\u0438\u0439 \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435 \u043a\u0430\u0440\u0442\u0438\u043d\u043a\u0438.</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">4. mqtt/get_weather/temp \u2014 \u0442\u043e\u043f\u0438\u043a, \u043f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u044e\u0449\u0438\u0439 \u0442\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u0443 \u0432\u043e\u0437\u0434\u0443\u0445\u0430. </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><s"
+                        "pan style=\" font-size:12pt;\">5. mqtt/get_weather/status \u2014 \u0442\u043e\u043f\u0438\u043a, \u043f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u044e\u0449\u0438\u0439 \u0434\u0430\u043d\u043d\u044b\u0435 \u043e \u043f\u043e\u0433\u043e\u0434\u0435. </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">6. android/vibro \u2014 \u0442\u043e\u043f\u0438\u043a \u043d\u0430 3-\u0445 \u0441\u0435\u043a\u0443\u043d\u0434\u043d\u0443\u044e \u0432\u0438\u0431\u0440\u0430\u0446\u0438\u044e.</span></p></body></html>", None))
     # retranslateUi
 

@@ -67,7 +67,6 @@ class MainWindow(QMainWindow):
             'mqtt/get_weather/temp',
             'mqtt/get_weather/status',
             'android/get_ip/return',
-            'android/get_download',
             'android/vibro',
         ]
 
@@ -128,11 +127,7 @@ class MainWindow(QMainWindow):
         
         if pubtop == 'android/get_ip/return':
             self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<запрос на ip> ' + '\n')
-            
-        
-        if pubtop == 'android/get_download':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<запрос на скорость загрузки> ' + '\n')
-        
+                    
         
         client.publish(pubtop,text)
 
@@ -149,20 +144,14 @@ class MainWindow(QMainWindow):
         if self.playing:
             pygame.mixer.music.pause()
 
-
-    
     def start_take(self):
         threading.Thread(target=self.take_message,daemon=True).start()
-    
-    # def on_connect(self,client,userdata,flags,rc):
-    #     self.ui.label_for_connect_result.setText(('Подключение дало результат ' + str(rc) + '\n'))
-    
+
     def restart(self): 
         os.system("shutdown /r /t 1")
     
     def get_ascii(self):
         self.ui.textEdit_for_view.insertPlainText(
-# '-------------------------------------- ' + '\n'
     
 ' __    __     ______     ______   ____ \n'
 '/\ "-./  \   /\  __ \   /\__  _\ /\__  _\  \n'
@@ -170,7 +159,7 @@ class MainWindow(QMainWindow):
 ' \ \_\ \ \_\  \ \___\_\    \ \_\    \ \_\  \n'
 '  \/_/  \/_/   \/___/_/     \/_/     \/_/  \n'
  + '\n' 
-# '-------------------------------------- ' 
+
 + '\n' + '\n'
  )
     
@@ -204,7 +193,6 @@ class MainWindow(QMainWindow):
             self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + '  Track1 начал проигрывание' + '\n')
             self.start_track()
 
-        
         if message.topic == 'music/track1/stop':
             self.ui.textEdit_for_view.insertPlainText( '['+ cur_time + '] '+ message.topic + '  Track1 закончил проигрывание' + '\n')
             self.stop_track()
@@ -225,9 +213,7 @@ class MainWindow(QMainWindow):
         broker = "test.mosquitto.org"
         client = mqtt.Client("cl1")
         
-       
         client.connect(broker)
-        
         
         client.subscribe('device/memorystatus/harddrive/c') 
         client.subscribe('device/work/cpu')
@@ -241,8 +227,6 @@ class MainWindow(QMainWindow):
 
         client.loop_start()
         
-        
-        # while True:
         client.on_message = self.on_message
 
 

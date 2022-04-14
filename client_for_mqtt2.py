@@ -51,10 +51,8 @@ class MainWindow(QMainWindow):
         self.ui._old_pos = None
         self.center()
 
-
         self.hdd = psutil.disk_usage('/')
 
-        # массив для отправки сообщений с темой
         list_for_publish = [
             'mqtt/text/chat',
             'device/memorystatus/harddrive/c',
@@ -63,7 +61,6 @@ class MainWindow(QMainWindow):
             'music/track1/start',
             'music/track1/stop',
             'android/get_ascii',
-            'android/sunrise_sunset',
             'android/get_ip/return',
             'android/tts'
         ]
@@ -124,9 +121,6 @@ class MainWindow(QMainWindow):
         
         if subtop == 'android/get_ascii':
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на ascii> ' + '\n')
-        
-        if subtop == 'android/sunrise_sunset':
-            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на закат/рассвет> ' + '\n')
         
         if subtop == 'android/get_ip/return':
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на получение ip> ' + '\n')
@@ -210,8 +204,6 @@ class MainWindow(QMainWindow):
         client.subscribe('mqtt/pc/client_2/get_screen')
 
         client.loop_start()
-
-        # while True:
         client.on_message = self.on_message
 
 if __name__ == "__main__":

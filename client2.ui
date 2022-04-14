@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>860</width>
+    <width>858</width>
     <height>460</height>
    </rect>
   </property>
@@ -35,11 +35,19 @@
       <x>0</x>
       <y>0</y>
       <width>861</width>
-      <height>51</height>
+      <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>Montserrat Black</family>
+      <weight>75</weight>
+      <italic>true</italic>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(0, 0, 0);</string>
+     <string notr="true">background-color: rgb(57, 64, 72);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -53,18 +61,18 @@
        <x>730</x>
        <y>0</y>
        <width>61</width>
-       <height>51</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
  color: rgb(255, 255, 255);
-background-color: black;
+background-color: rgb(57, 64, 72);
  border: 0px solid;
 }
 
 QPushButton:hover {
-background-color: rgb(55,55,55);
+background-color: rgb(56, 92, 255);
 }</string>
      </property>
      <property name="text">
@@ -77,13 +85,13 @@ background-color: rgb(55,55,55);
        <x>800</x>
        <y>0</y>
        <width>61</width>
-       <height>51</height>
+       <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
  color: rgb(255, 255, 255);
-background-color: black;
+background-color: rgb(57, 64, 72);
  border: 0px solid;
 }
 
@@ -98,48 +106,39 @@ QPushButton:hover {
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>10</y>
-       <width>81</width>
-       <height>41</height>
+       <x>40</x>
+       <y>0</y>
+       <width>61</width>
+       <height>31</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Montserrat Medium</family>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;MQQT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>10</y>
-       <width>51</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">color: rgb(255, 255, 255);
-</string>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Клиент 2&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;MQQT&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>
    <widget class="QFrame" name="frame_3">
     <property name="geometry">
      <rect>
-      <x>-1</x>
-      <y>49</y>
+      <x>0</x>
+      <y>29</y>
       <width>131</width>
-      <height>411</height>
+      <height>431</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(0, 0, 0);</string>
+     <string notr="true">background-color: rgb(57, 64, 72);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -158,18 +157,20 @@ QPushButton:hover {
      </property>
      <property name="font">
       <font>
+       <family>Montserrat Medium</family>
        <pointsize>12</pointsize>
+       <italic>false</italic>
       </font>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
  color: rgb(255, 255, 255);
-background-color: black;
+background-color: rgb(57, 64, 72);
  border: 0px solid;
 }
 
 QPushButton:hover {
-background-color: rgb(55,55,55);
+background-color: rgb(56, 92, 255);
 }</string>
      </property>
      <property name="text">
@@ -187,22 +188,50 @@ background-color: rgb(55,55,55);
      </property>
      <property name="font">
       <font>
+       <family>Montserrat Medium</family>
        <pointsize>12</pointsize>
+       <italic>false</italic>
       </font>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
  color: rgb(255, 255, 255);
-background-color: black;
+background-color: rgb(57, 64, 72);
  border: 0px solid;
 }
 
 QPushButton:hover {
-background-color: rgb(55,55,55);
+background-color: rgb(56, 92, 255);
 }</string>
      </property>
      <property name="text">
       <string>Руководство</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>400</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Montserrat Medium</family>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <italic>true</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+</string>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Клиент 2&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </widget>
@@ -210,23 +239,30 @@ background-color: rgb(55,55,55);
     <property name="geometry">
      <rect>
       <x>139</x>
-      <y>59</y>
+      <y>39</y>
       <width>721</width>
-      <height>391</height>
+      <height>411</height>
      </rect>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QPushButton" name="btn_for_sendmessage2">
       <property name="geometry">
        <rect>
-        <x>430</x>
-        <y>312</y>
-        <width>260</width>
-        <height>40</height>
+        <x>460</x>
+        <y>369</y>
+        <width>201</width>
+        <height>41</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Montserrat Medium</family>
+        <pointsize>11</pointsize>
+        <italic>false</italic>
+       </font>
+      </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(114, 255, 112);
+       <string notr="true">background-color: rgb(56, 92, 255);
 border-radius: 10px;
 color: rgb(255, 255, 255);</string>
       </property>
@@ -240,13 +276,14 @@ color: rgb(255, 255, 255);</string>
         <x>0</x>
         <y>4</y>
         <width>404</width>
-        <height>302</height>
+        <height>341</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <family>MS Shell Dlg 2</family>
+        <family>Montserrat Medium</family>
         <pointsize>12</pointsize>
+        <italic>false</italic>
        </font>
       </property>
       <property name="styleSheet">
@@ -260,7 +297,7 @@ border-color: #37393d;
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Montserrat Medium'; font-size:12pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Montserrat'; font-size:8.25pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
@@ -275,13 +312,32 @@ p, li { white-space: pre-wrap; }
       </property>
       <property name="font">
        <font>
-        <family>Montserrat</family>
+        <family>Montserrat Medium</family>
+        <pointsize>10</pointsize>
+        <italic>false</italic>
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(76, 79, 84);
+       <string notr="true">QComboBox{
+background-color: rgb(57, 64, 72);
 color: white;
+border-radius: 10px;
+}
 
+QComboBox::drop-down {
+     subcontrol-origin: padding;
+     subcontrol-position: top right;
+     width: 15px;
+     border-left-width: 1px;
+     border-left-color: darkgray;
+     border-top-right-radius: 10px; 
+     border-bottom-right-radius: 10px;
+ }
+
+QComboBox QAbstractItemView {
+border: 1px solid darkgray;
+selection-background-color:  rgb(56, 92, 255);
+}
 </string>
       </property>
      </widget>
@@ -289,17 +345,18 @@ color: white;
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>312</y>
+        <y>370</y>
         <width>404</width>
         <height>40</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <family>MS Shell Dlg 2</family>
+        <family>Montserrat Medium</family>
         <pointsize>12</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
         <underline>false</underline>
         <strikeout>false</strikeout>
        </font>
@@ -323,16 +380,37 @@ border-color: #37393d;
         <x>3</x>
         <y>10</y>
         <width>701</width>
-        <height>371</height>
+        <height>391</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Montserrat Medium</family>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">border-width: 0px;
 border-style: solid;
-border-color: rgb(255, 255, 255);</string>
+border-color: rgb(255, 255, 255);
+color: rgb(255, 255, 255);</string>
       </property>
       <property name="readOnly">
        <bool>true</bool>
+      </property>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Montserrat Medium'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt;&quot;&gt;1. mqtt/text/chat — топик, с помощью которого отправляется сообщение. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt;&quot;&gt;2. device/memorystatus/harddrive/c — топик, показывающий состояние диска &amp;quot;C&amp;quot;.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt;&quot;&gt;3. device/work/cpu — топик, показывающий работу процессора в процентах.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt;&quot;&gt;4. device/work/ram — топик, показывающий работу памяти в процентах. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt;&quot;&gt;5. music/track1/start — топик на запуск трека. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt;&quot;&gt;6. music/track1/stop — топик на остановку трека. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt;&quot;&gt;7. android/get_ascll — топик на отображение текстового изображения. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt;&quot;&gt;8. android/get_ip/return — топик на получение ip адреса андроида. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'MS Shell Dlg 2'; font-size:12pt;&quot;&gt;9. android/tts — топик, отвечающий за воспроизведение текста в речь.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </widget>

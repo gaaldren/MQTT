@@ -16,7 +16,6 @@ import http.client
 
 
 
-# Цвет окна
 Window.clearcolor = (.9, .9, .9, 1)
 
 
@@ -52,8 +51,6 @@ class Container(GridLayout):
             self.ids.label_out.text = 'Вы отправили -> <Сделать скриншот> '
         
         client.publish(pubtop,text)
-    
-
 
     def get_ascii(self):
         self.ids.label_out.text = (
@@ -87,8 +84,8 @@ class Container(GridLayout):
 
         if message.topic == 'android/vibro': 
             vibrator.vibrate(3)
-            self.ids.label_out.text = 'работает'
         
+
         if message.topic == 'android/tts':
             tts.speak('Hello friend')
 
