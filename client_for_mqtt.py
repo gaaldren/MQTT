@@ -49,7 +49,10 @@ class MainWindow(QMainWindow):
 
         self.ui._old_pos = None
         self.center()
-
+        
+        self.client = mqtt.Client()
+        self.client.connect("test.mosquitto.org")
+        self.start_take()
 
         pygame.mixer.init()
         self.playing = False
@@ -57,7 +60,6 @@ class MainWindow(QMainWindow):
         
         self.ui.textEdit_for_view.setReadOnly(True)
         self.hdd = psutil.disk_usage('/')
-        self.start_take()
         self.ui.btn_for_sendmessage.clicked.connect(self.start_send)
 
         list_for_publish_client_1 = [
@@ -93,15 +95,13 @@ class MainWindow(QMainWindow):
 
 
     def start_send(self):
-        threading.Thread(target=self.public,daemon=True).start()
+        threading.Thread(target=self.public(self.client),daemon=True).start()
 
-    def public(self):  
+    def public(self,client):  
         now = datetime.now()
         cur_time = now.strftime("%H:%M:%S")  
         text = self.ui.lineEdit_for_writetext.text()
-        broker = "test.mosquitto.org" 
-        client = mqtt.Client()
-        client.connect(broker)
+
 
         pubtop = self.ui.comboBox_for_select_topic.currentText()
         
@@ -129,7 +129,7 @@ class MainWindow(QMainWindow):
             self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<запрос на ip> ' + '\n')
                     
         
-        client.publish(pubtop,text)
+        self.client.publish(pubtop,text)
 
         
         self.ui.lineEdit_for_writetext.clear()
@@ -145,7 +145,7 @@ class MainWindow(QMainWindow):
             pygame.mixer.music.pause()
 
     def start_take(self):
-        threading.Thread(target=self.take_message,daemon=True).start()
+        threading.Thread(target=self.take_message(self.client),daemon=True).start()
 
     def restart(self): 
         os.system("shutdown /r /t 1")
@@ -209,23 +209,18 @@ class MainWindow(QMainWindow):
             self.get_ascii()
             
 
-    def take_message(self):
-        broker = "test.mosquitto.org"
-        client = mqtt.Client("cl1")
-        
-        client.connect(broker)
-        
-        client.subscribe('device/memorystatus/harddrive/c') 
-        client.subscribe('device/work/cpu')
-        client.subscribe('mqtt/text/chat')
-        client.subscribe('device/work/ram')
-        client.subscribe('music/track1/start')
-        client.subscribe('music/track1/stop')
-        client.subscribe('mqtt/chat/client_1/android')
-        client.subscribe('mqtt/pc/client_1/restart')
-        client.subscribe('mqtt/file/client_1/get_text')
+    def take_message(self,client):
+        self.client.subscribe('device/memorystatus/harddrive/c') 
+        self.client.subscribe('device/work/cpu')
+        self.client.subscribe('mqtt/text/chat')
+        self.client.subscribe('device/work/ram')
+        self.client.subscribe('music/track1/start')
+        self.client.subscribe('music/track1/stop')
+        self.client.subscribe('mqtt/chat/client_1/android')
+        self.client.subscribe('mqtt/pc/client_1/restart')
+        self.client.subscribe('mqtt/file/client_1/get_text')
 
-        client.loop_start()
+        self.client.loop_start()
         
         client.on_message = self.on_message
 

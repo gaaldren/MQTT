@@ -40,8 +40,11 @@ class MainWindow(QMainWindow):
         self.ui.pushButton_page1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page))
         self.ui.pushButton_page2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
 
+        self.client = mqtt.Client()
+        self.client.connect("test.mosquitto.org")
 
         self.start_take()
+        
         self.ui.btn_for_sendmessage2.clicked.connect(self.start_send)
         self.ui.textEdit_for_view2.setReadOnly(True)
 
@@ -88,15 +91,13 @@ class MainWindow(QMainWindow):
 
 
     def start_send(self):
-        threading.Thread(target=self.public,daemon=True).start()
+        threading.Thread(target=self.public(self.client),daemon=True).start()
 
-    def public(self):
+    def public(self,client):
         now = datetime.now()
         cur_time = now.strftime("%H:%M:%S")
         text = self.ui.lineEdit_for_writetext2.text()
-        broker = "test.mosquitto.org" 
-        client = mqtt.Client()
-        client.connect(broker)
+
 
         subtop = self.ui.comboBox_for_select_topic2.currentText()
 
@@ -129,14 +130,14 @@ class MainWindow(QMainWindow):
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на речь> ' + '\n')
 
         
-        client.publish(subtop,text)
+        self.client.publish(subtop,text)
 
         
         self.ui.lineEdit_for_writetext2.clear()
         
     
     def start_take(self):
-        threading.Thread(target=self.take_message,daemon=True).start()
+        threading.Thread(target=self.take_message(self.client),daemon=True).start()
 
     def take_picture(self):
         msg = QMessageBox()
@@ -194,23 +195,19 @@ class MainWindow(QMainWindow):
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + message.payload.decode('utf-8') + '\n')
 
     
-    def take_message(self):
-        broker = "test.mosquitto.org"
-        client = mqtt.Client("cl2")
-        
-        client.connect(broker)
+    def take_message(self,client):
         # client.connect("localhost")
-        client.subscribe('mqtt/example1') 
-        client.subscribe('device/ip')
-        client.subscribe('mqtt/picture')
-        client.subscribe('android/get_ip/return')
-        client.subscribe('mqtt/get_weather/temp')
-        client.subscribe('mqtt/get_weather/status')
-        client.subscribe('mqtt/browser/client_2/open')
-        client.subscribe('mqtt/pc/client_2/get_screen')
+        self.client.subscribe('mqtt/example1') 
+        self.client.subscribe('device/ip')
+        self.client.subscribe('mqtt/picture')
+        self.client.subscribe('android/get_ip/return')
+        self.client.subscribe('mqtt/get_weather/temp')
+        self.client.subscribe('mqtt/get_weather/status')
+        self.client.subscribe('mqtt/browser/client_2/open')
+        self.client.subscribe('mqtt/pc/client_2/get_screen')
 
 
-        client.loop_start()
+        self.client.loop_start()
         client.on_message = self.on_message
 
 if __name__ == "__main__":
