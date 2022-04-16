@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>858</width>
-    <height>460</height>
+    <height>459</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -76,7 +76,7 @@ background-color: rgb(56, 92, 255);
 }</string>
      </property>
      <property name="text">
-      <string>-</string>
+      <string>—</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_close">
@@ -100,7 +100,7 @@ QPushButton:hover {
 }</string>
      </property>
      <property name="text">
-      <string>x</string>
+      <string>X</string>
      </property>
     </widget>
     <widget class="QLabel" name="label">

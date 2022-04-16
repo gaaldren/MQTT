@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'client2sfoYcA.ui'
+## Form generated from reading UI file 'client2ODfzAy.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.15.2
 ##
@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(858, 460)
+        MainWindow.resize(858, 459)
         MainWindow.setMinimumSize(QSize(0, 0))
         MainWindow.setMaximumSize(QSize(16777215, 16777215))
         MainWindow.setStyleSheet(u"background-color: #37393d")
@@ -212,8 +212,8 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.pushButton_ghost_w.setText(QCoreApplication.translate("MainWindow", u"-", None))
-        self.pushButton_close.setText(QCoreApplication.translate("MainWindow", u"x", None))
+        self.pushButton_ghost_w.setText(QCoreApplication.translate("MainWindow", u"\u2014", None))
+        self.pushButton_close.setText(QCoreApplication.translate("MainWindow", u"X", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-size:14pt;\">MQQT</span></p></body></html>", None))
         self.pushButton_page1.setText(QCoreApplication.translate("MainWindow", u"\u0413\u043b\u0430\u0432\u043d\u0430\u044f", None))
         self.pushButton_page2.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0443\u043a\u043e\u0432\u043e\u0434\u0441\u0442\u0432\u043e", None))

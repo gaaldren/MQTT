@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
             'music/track1/start',
             'music/track1/stop',
             'android/get_ascii',
-            'android/get_ip/return',
+            'android/get_ip',
             'android/tts'
         ]
 
@@ -122,8 +122,8 @@ class MainWindow(QMainWindow):
         if subtop == 'android/get_ascii':
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на ascii> ' + '\n')
         
-        if subtop == 'android/get_ip/return':
-            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на получение ip> ' + '\n')
+        if subtop == 'android/get_ip':
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на ip> ' + '\n')
         
         if subtop == 'android/tts':
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<запрос на речь> ' + '\n')
@@ -189,19 +189,26 @@ class MainWindow(QMainWindow):
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + '<Скриншот>' + '\n')
             image = pyautogui.screenshot()
             image.save('screen.png')
+        
+        if message.topic == 'android/get_ip/return':
+            self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + message.payload.decode('utf-8') + '\n')
+
     
     def take_message(self):
         broker = "test.mosquitto.org"
         client = mqtt.Client("cl2")
         
         client.connect(broker)
+        # client.connect("localhost")
         client.subscribe('mqtt/example1') 
         client.subscribe('device/ip')
         client.subscribe('mqtt/picture')
+        client.subscribe('android/get_ip/return')
         client.subscribe('mqtt/get_weather/temp')
         client.subscribe('mqtt/get_weather/status')
         client.subscribe('mqtt/browser/client_2/open')
         client.subscribe('mqtt/pc/client_2/get_screen')
+
 
         client.loop_start()
         client.on_message = self.on_message

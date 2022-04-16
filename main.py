@@ -32,25 +32,35 @@ class Container(GridLayout):
         client = mqtt.Client("Device")
         client.connect(broker)
         text = self.ids.text_input.text
-        
         pubtop = self.ids.spin_top.text
         
         if pubtop == 'mqtt/chat/client_1/android':
             self.ids.label_out.text = 'Вы отправили -> ' + text + '\n'
+            client.publish(pubtop,text)
         
         if pubtop == 'mqtt/pc/client_1/restart':
             self.ids.label_out.text = 'Вы отправили -> <Перезагрузка>'
+            client.publish(pubtop)
         
         if pubtop == 'mqtt/file/client_1/get_text':
             self.ids.label_out.text = 'Вы отправили -> <ASCII> '
+            client.publish(pubtop)
         
         if pubtop == 'mqtt/browser/client_2/open':
             self.ids.label_out.text = 'Вы отправили -> <Открыть браузер> '
+            client.publish(pubtop)
         
         if pubtop == 'mqtt/pc/client_2/get_screen':
             self.ids.label_out.text = 'Вы отправили -> <Сделать скриншот> '
+            client.publish(pubtop)
         
-        client.publish(pubtop,text)
+        if pubtop == 'android/get_ip/return':
+            self.ids.label_out.text = 'Вы отправили -> <Возврат ip> ' + '\n'  
+            self.gt_ip()      
+            out = self.ids.label_out.text 
+            client.publish(pubtop,out)
+
+        
 
     def get_ascii(self):
         self.ids.label_out.text = (
@@ -64,20 +74,22 @@ class Container(GridLayout):
 
  + '\n'
         )    
+
+    def gt_ip(self):
+        conn = http.client.HTTPConnection("ifconfig.me")
+        conn.request("GET", "/ip")
+        out = conn.getresponse().read()
+        self.ids.label_out.text = str(out) 
+        
   
     def on_message(self,client,userdata,message):
         if message.topic == 'mqtt/example1':
             self.ids.label_out.text = message.topic + '  ' + message.payload.decode('utf-8')
         
         
-        if message.topic == 'android/get_ip/return':   
-            conn = http.client.HTTPConnection("ifconfig.me")
-            conn.request("GET", "/ip")
-            out = conn.getresponse().read()
-            broker = "test.mosquitto.org" 
-            client = mqtt.Client("Device")
-            client.connect(broker)
-            client.publish('mqtt/chat/client_1/android',out)
+        if message.topic == 'android/get_ip':   # <---- выводит у себя
+            self.gt_ip()
+
             
         if message.topic == 'android/get_ascii':
             self.get_ascii()
@@ -96,7 +108,7 @@ class Container(GridLayout):
         client.connect(broker)
 
         client.subscribe('mqtt/example1')
-        client.subscribe('android/get_ip/return')
+        client.subscribe('android/get_ip')
         client.subscribe('android/vibro')
         client.subscribe('android/get_ascii')
         client.subscribe('android/tts')

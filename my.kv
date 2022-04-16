@@ -10,30 +10,28 @@
         Spinner:
             id: spin_top
             text: "topic"
-            values: 'mqtt/chat/client_1/android','mqtt/pc/client_1/restart','mqtt/file/client_1/get_text','mqtt/browser/client_2/open','mqtt/pc/client_2/get_screen'
+            values: 'mqtt/chat/client_1/android','mqtt/pc/client_1/restart','mqtt/file/client_1/get_text','mqtt/browser/client_2/open','mqtt/pc/client_2/get_screen','android/get_ip/return'
             size_hint: 1, 1
+            background_color: (83/255,0/255,191/255,0.8)
             # on_text: root.on_spinner_select(self)
         Label:
             id: label_out
-            size_hint: 1, 5
+            size_hint: 1, 9
             text_size: root.width, None
             size: self.texture_size
-            padding_x: 20
-            # text: root.on_message
-            color: 'black'
-            font_size: '20sp'
-            background_color: (128/255.0,128/255.0,128/255.0,1)
-        Label:
-            id: label_for_except
-            size_hint: 1, 5
-            color: 'black'
+            # padding_x: 20
             
-            # canvas.before:
-			# 	Color:
-			# 		rgba: self.background_color
-			# 	Rectangle:
-			# 		size: self.size
-			# 		pos: self.pos
+            color: "white"
+            font_size: '20sp'
+            background_color: (.27, .27, .30, 1)
+
+            
+            canvas.before:
+				Color:
+					rgba: self.background_color
+				Rectangle:
+					size: self.size
+					pos: self.pos
             
         
         BoxLayout:
@@ -41,8 +39,9 @@
             TextInput:
                 id: text_input 
                 size_hint: 0.7, 1
+                background_color: (.27, .27, .30, 1)
             Button:
                 size_hint: 0.3,1
-                background_color: (0,0,1,.7)
+                background_color: (83/255,0/255,191/255,0.8)
                 text:'ОК'
                 on_release: root.start_send()
