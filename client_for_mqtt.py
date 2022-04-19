@@ -68,7 +68,6 @@ class MainWindow(QMainWindow):
             'mqtt/picture',
             'mqtt/get_weather/temp',
             'mqtt/get_weather/status',
-            'android/get_ip/return',
             'android/vibro',
         ]
 
@@ -125,8 +124,6 @@ class MainWindow(QMainWindow):
         if pubtop == 'mqtt/get_weather/status':
             self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<запрос на статус погоды> ' + '\n')
         
-        if pubtop == 'android/get_ip/return':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<запрос на ip> ' + '\n')
                     
         
         self.client.publish(pubtop,text)
