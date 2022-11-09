@@ -149,6 +149,8 @@ class MainWindow(QMainWindow):
     
     def get_ascii(self):
         self.ui.textEdit_for_view.insertPlainText(
+
+    
     
 ' __    __     ______     ______   ____ \n'
 '/\ "-./  \   /\  __ \   /\__  _\ /\__  _\  \n'
@@ -205,6 +207,11 @@ class MainWindow(QMainWindow):
             self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + '<Получить ascii> ' + '\n' + '\n' )
             self.get_ascii()
             
+    
+    def get_ip(self):
+        h_name = socket.gethostname()
+        IP_addres = socket.gethostbyname(h_name)
+        return IP_addres
 
     def take_message(self,client):
         self.client.subscribe('device/memorystatus/harddrive/c') 
