@@ -24,11 +24,14 @@ import socket
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
-        
+
+        # инициализация конструктора, Объект класса ui main window
+
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        
+        # обращение к элементу для закрытия приложения
+
         self.ui.btn_close.clicked.connect(self.close)
         self.ui.btn_ghost.clicked.connect(lambda: self.showMinimized())
 
@@ -41,6 +44,9 @@ class MainWindow(QMainWindow):
       ' \ \_\ \ \_\  \ \___\_\    \ \_\    \ \_\  \n'
       '  \/_/  \/_/   \/___/_/     \/_/     \/_/  \n'
         + '\n')
+
+        # обращение к кнопкам для перехода по страницам
+
         self.ui.pushButton_page1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_1))
         self.ui.pushButton_page2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_3))
 
@@ -51,6 +57,9 @@ class MainWindow(QMainWindow):
         self.center()
         
         self.client = mqtt.Client()
+
+        # обращение к брокеру mosquitto.org
+
         self.client.connect("test.mosquitto.org")
         self.start_take()
 
@@ -62,6 +71,8 @@ class MainWindow(QMainWindow):
         self.hdd = psutil.disk_usage('/')
         self.ui.btn_for_sendmessage.clicked.connect(self.start_send)
 
+        # список подписок
+
         list_for_publish_client_1 = [
             'mqtt/example1',
             'device/ip',
@@ -72,6 +83,8 @@ class MainWindow(QMainWindow):
         ]
 
         self.ui.comboBox_for_select_topic.addItems(list_for_publish_client_1)
+
+    # функции, отключающие панель навигации
 
     def center(self):
         qr = self.frameGeometry()
@@ -93,6 +106,8 @@ class MainWindow(QMainWindow):
 
 
 
+    # создание нового процесса, который отправляет сообщения       
+
     def start_send(self):
         threading.Thread(target=self.public(self.client),daemon=True).start()
 
@@ -104,6 +119,8 @@ class MainWindow(QMainWindow):
 
         pubtop = self.ui.comboBox_for_select_topic.currentText()
         
+        # отображение информации на клиенте об отправляемой реакции 
+
         if pubtop == 'android/vibro':
             self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<вибрация> ' + '\n')
 
@@ -131,6 +148,7 @@ class MainWindow(QMainWindow):
         
         self.ui.lineEdit_for_writetext.clear()
         
+    # методы, отвечающие за принятие сообщения с другого клиента
 
     def start_track(self):
         pygame.mixer.music.load('Track1.mp3')
@@ -140,6 +158,8 @@ class MainWindow(QMainWindow):
     def stop_track(self):
         if self.playing:
             pygame.mixer.music.pause()
+
+    # новый процесс, который принимает сообщения
 
     def start_take(self):
         threading.Thread(target=self.take_message(self.client),daemon=True).start()
@@ -167,6 +187,8 @@ class MainWindow(QMainWindow):
         cur_time = now.strftime("%H:%M:%S")
 
 
+        # если пришло сообщение, вызываем метод на клиенте
+
         if message.topic == 'device/memorystatus/harddrive/c':
             self.ui.textEdit_for_view.insertPlainText(message.topic + ' ' + str(self.hdd.free / (2**30))+ '\n') 
             self.ui.textEdit_for_view.setStyleSheet('background-color: red')
@@ -176,7 +198,9 @@ class MainWindow(QMainWindow):
             'color: white;'
             'border-radius: 1px solid;')
 
-    
+
+        # обработка принятого сообщения
+
         if message.topic == 'device/work/cpu':
             self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + str(psutil.cpu_percent(interval=1))+ '%' + '\n') 
             
@@ -213,6 +237,8 @@ class MainWindow(QMainWindow):
         IP_addres = socket.gethostbyname(h_name)
         return IP_addres
 
+    # метод подписки на сообщения
+
     def take_message(self,client):
         self.client.subscribe('device/memorystatus/harddrive/c') 
         self.client.subscribe('device/work/cpu')
@@ -228,6 +254,8 @@ class MainWindow(QMainWindow):
         
         client.on_message = self.on_message
 
+
+# конструкция, которая даёт возможность запуска файла
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
