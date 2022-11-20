@@ -14,7 +14,7 @@ from pyowm.utils.config import get_default_config
 from datetime import datetime
 import threading
 import psutil
-import time 
+import time
 from ui_client import Ui_MainWindow
 
 import pygame
@@ -35,27 +35,29 @@ class MainWindow(QMainWindow):
         self.ui.btn_close.clicked.connect(self.close)
         self.ui.btn_ghost.clicked.connect(lambda: self.showMinimized())
 
-
-        self.ui.lineEdit_for_writetext.setPlaceholderText('Ввести текст для mqtt/example1')
-        self.ui.textEdit_for_view.setPlaceholderText( 'Здесь отображаются сообщения ' + '\n'
-      ' __    __     ______     ______   __     \n'
-      '/\ -./  \   /\  __ \   /\__  _\ /\__  _\  \n'
-      '\ \ \-./\ \  \ \ \/\_\  \/_/\ \/ \/_/\ \/  \n'
-      ' \ \_\ \ \_\  \ \___\_\    \ \_\    \ \_\  \n'
-      '  \/_/  \/_/   \/___/_/     \/_/     \/_/  \n'
-        + '\n')
+        self.ui.lineEdit_for_writetext.setPlaceholderText(
+            'Ввести текст для mqtt/example1')
+        self.ui.textEdit_for_view.setPlaceholderText('Здесь отображаются сообщения ' + '\n'
+                                                     ' __    __     ______     ______   __     \n'
+                                                     '/\ -./  \   /\  __ \   /\__  _\ /\__  _\  \n'
+                                                     '\ \ \-./\ \  \ \ \/\_\  \/_/\ \/ \/_/\ \/  \n'
+                                                     ' \ \_\ \ \_\  \ \___\_\    \ \_\    \ \_\  \n'
+                                                     '  \/_/  \/_/   \/___/_/     \/_/     \/_/  \n'
+                                                     + '\n')
 
         # обращение к кнопкам для перехода по страницам
 
-        self.ui.pushButton_page1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_1))
-        self.ui.pushButton_page2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_3))
+        self.ui.pushButton_page1.clicked.connect(
+            lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_1))
+        self.ui.pushButton_page2.clicked.connect(
+            lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_3))
 
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
 
         self.ui._old_pos = None
         self.center()
-        
+
         self.client = mqtt.Client()
 
         # обращение к брокеру mosquitto.org
@@ -66,7 +68,6 @@ class MainWindow(QMainWindow):
         pygame.mixer.init()
         self.playing = False
 
-        
         self.ui.textEdit_for_view.setReadOnly(True)
         self.hdd = psutil.disk_usage('/')
         self.ui.btn_for_sendmessage.clicked.connect(self.start_send)
@@ -95,7 +96,6 @@ class MainWindow(QMainWindow):
     def mousePressEvent(self, event):
         self.oldPos = event.globalPos()
 
-
     def mouseMoveEvent(self, event):
         try:
             delta = QPoint(event.globalPos() - self.oldPos)
@@ -104,50 +104,50 @@ class MainWindow(QMainWindow):
         except AttributeError:
             pass
 
-
-
-    # создание нового процесса, который отправляет сообщения       
+    # создание нового процесса, который отправляет сообщения
 
     def start_send(self):
-        threading.Thread(target=self.public(self.client),daemon=True).start()
+        threading.Thread(target=self.public(self.client), daemon=True).start()
 
-    def public(self,client):  
+    def public(self, client):
         now = datetime.now()
-        cur_time = now.strftime("%H:%M:%S")  
+        cur_time = now.strftime("%H:%M:%S")
         text = self.ui.lineEdit_for_writetext.text()
 
-
         pubtop = self.ui.comboBox_for_select_topic.currentText()
-        
-        # отображение информации на клиенте об отправляемой реакции 
+
+        # отображение информации на клиенте об отправляемой реакции
 
         if pubtop == 'android/vibro':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<вибрация> ' + '\n')
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + '<вибрация> ' + '\n')
 
         if pubtop == 'mqtt/example1':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' +'<' + text + '> ' + '\n')
-        
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + '<' + text + '> ' + '\n')
+
         if pubtop == 'device/ip':
             h_name = socket.gethostname()
             IP_addres = socket.gethostbyname(h_name)
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<' + IP_addres + '> '+ '\n')
-        
-        if pubtop == 'mqtt/picture':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<Picture1.jpg> ' + '\n')
-        
-        if pubtop == 'mqtt/get_weather/temp':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<запрос на температуру> ' + '\n')
-        
-        if pubtop == 'mqtt/get_weather/status':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + '<запрос на статус погоды> ' + '\n')
-        
-                    
-        
-        self.client.publish(pubtop,text)
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + '<' + IP_addres + '> ' + '\n')
 
-        
+        if pubtop == 'mqtt/picture':
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + '<Picture1.jpg> ' + '\n')
+
+        if pubtop == 'mqtt/get_weather/temp':
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + '<запрос на температуру> ' + '\n')
+
+        if pubtop == 'mqtt/get_weather/status':
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + '<запрос на статус погоды> ' + '\n')
+
+        self.client.publish(pubtop, text)
+
         self.ui.lineEdit_for_writetext.clear()
-        
+
     # методы, отвечающие за принятие сообщения с другого клиента
 
     def start_track(self):
@@ -162,76 +162,82 @@ class MainWindow(QMainWindow):
     # новый процесс, который принимает сообщения
 
     def start_take(self):
-        threading.Thread(target=self.take_message(self.client),daemon=True).start()
+        threading.Thread(target=self.take_message(
+            self.client), daemon=True).start()
 
-    def restart(self): 
+    def restart(self):
         os.system("shutdown /r /t 1")
-    
+
     def get_ascii(self):
         self.ui.textEdit_for_view.insertPlainText(
 
-    
-    
-' __    __     ______     ______   ____ \n'
-'/\ "-./  \   /\  __ \   /\__  _\ /\__  _\  \n'
-'\ \ \-./\ \  \ \ \/\_\  \/_/\ \/ \/_/\ \/  \n'
-' \ \_\ \ \_\  \ \___\_\    \ \_\    \ \_\  \n'
-'  \/_/  \/_/   \/___/_/     \/_/     \/_/  \n'
- + '\n' 
 
-+ '\n' + '\n'
- )
-    
-    def on_message(self,client,userdata,message): 
+
+            ' __    __     ______     ______   ____ \n'
+            '/\ "-./  \   /\  __ \   /\__  _\ /\__  _\  \n'
+            '\ \ \-./\ \  \ \ \/\_\  \/_/\ \/ \/_/\ \/  \n'
+            ' \ \_\ \ \_\  \ \___\_\    \ \_\    \ \_\  \n'
+            '  \/_/  \/_/   \/___/_/     \/_/     \/_/  \n'
+            + '\n'
+
+            + '\n' + '\n'
+        )
+
+    def on_message(self, client, userdata, message):
         now = datetime.now()
         cur_time = now.strftime("%H:%M:%S")
-
 
         # если пришло сообщение, вызываем метод на клиенте
 
         if message.topic == 'device/memorystatus/harddrive/c':
-            self.ui.textEdit_for_view.insertPlainText(message.topic + ' ' + str(self.hdd.free / (2**30))+ '\n') 
+            self.ui.textEdit_for_view.insertPlainText(
+                message.topic + ' ' + str(self.hdd.free / (2**30)) + '\n')
             self.ui.textEdit_for_view.setStyleSheet('background-color: red')
             time.sleep(3)
-            self.ui.textEdit_for_view.setStyleSheet(    
-            'background-color: rgb(76, 79, 84);'
-            'color: white;'
-            'border-radius: 1px solid;')
-
+            self.ui.textEdit_for_view.setStyleSheet(
+                'background-color: rgb(76, 79, 84);'
+                'color: white;'
+                'border-radius: 1px solid;')
 
         # обработка принятого сообщения
 
         if message.topic == 'device/work/cpu':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + str(psutil.cpu_percent(interval=1))+ '%' + '\n') 
-            
-        
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + message.topic + ' ' + str(psutil.cpu_percent(interval=1)) + '%' + '\n')
+
         if message.topic == 'mqtt/text/chat':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + message.payload.decode('utf-8') + '\n' )
-        
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + message.topic + ' ' + message.payload.decode('utf-8') + '\n')
+
         if message.topic == 'device/work/ram':
             values = psutil.virtual_memory().percent
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + str(values) + '%' + '\n')
-        
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + message.topic + ' ' + str(values) + '%' + '\n')
+
         if message.topic == 'music/track1/start':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + '  Track1 начал проигрывание' + '\n')
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + message.topic + '  Track1 начал проигрывание' + '\n')
             self.start_track()
 
         if message.topic == 'music/track1/stop':
-            self.ui.textEdit_for_view.insertPlainText( '['+ cur_time + '] '+ message.topic + '  Track1 закончил проигрывание' + '\n')
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + message.topic + '  Track1 закончил проигрывание' + '\n')
             self.stop_track()
-        
-        if message.topic == 'mqtt/chat/client_1/android':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + message.payload.decode('utf-8') + '\n' )
 
-        if message.topic == 'mqtt/pc/client_1/restart': 
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + '<Перезагрузка> ' + '\n' )
+        if message.topic == 'mqtt/chat/client_1/android':
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + message.topic + ' ' + message.payload.decode('utf-8') + '\n')
+
+        if message.topic == 'mqtt/pc/client_1/restart':
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + message.topic + ' ' + '<Перезагрузка> ' + '\n')
             self.restart()
-        
+
         if message.topic == 'mqtt/file/client_1/get_text':
-            self.ui.textEdit_for_view.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + '<Получить ascii> ' + '\n' + '\n' )
+            self.ui.textEdit_for_view.insertPlainText(
+                '[' + cur_time + '] ' + message.topic + ' ' + '<Получить ascii> ' + '\n' + '\n')
             self.get_ascii()
-            
-    
+
     def get_ip(self):
         h_name = socket.gethostname()
         IP_addres = socket.gethostbyname(h_name)
@@ -239,8 +245,8 @@ class MainWindow(QMainWindow):
 
     # метод подписки на сообщения
 
-    def take_message(self,client):
-        self.client.subscribe('device/memorystatus/harddrive/c') 
+    def take_message(self, client):
+        self.client.subscribe('device/memorystatus/harddrive/c')
         self.client.subscribe('device/work/cpu')
         self.client.subscribe('mqtt/text/chat')
         self.client.subscribe('device/work/ram')
@@ -249,9 +255,8 @@ class MainWindow(QMainWindow):
         self.client.subscribe('mqtt/chat/client_1/android')
         self.client.subscribe('mqtt/pc/client_1/restart')
         self.client.subscribe('mqtt/file/client_1/get_text')
-
         self.client.loop_start()
-        
+
         client.on_message = self.on_message
 
 
@@ -259,7 +264,7 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    
+
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
