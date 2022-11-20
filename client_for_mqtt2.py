@@ -22,11 +22,19 @@ from ui_client2 import Ui_MainWindow
 
 
 class MainWindow(QMainWindow):
+    
+    # инициализация конструктора
+
     def __init__(self):
         QMainWindow.__init__(self)
-        
+    
+        # объект класса ui main window
+
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        # обращение к элементу для закрытия приложения
+
         self.ui.pushButton_close.clicked.connect(self.close)
         self.ui.pushButton_ghost_w.clicked.connect(lambda: self.showMinimized())
         self.ui.lineEdit_for_writetext2.setPlaceholderText('Ввести текст для mqtt/text/chat')
@@ -37,14 +45,18 @@ class MainWindow(QMainWindow):
       ' \ \_\ \ \_\  \ \___\_\    \ \_\    \ \_\  \n'
       '  \/_/  \/_/   \/___/_/     \/_/     \/_/  \n'
         + '\n')
+        
+        # обращение к кнопкам для перехода по страницам
+
         self.ui.pushButton_page1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page))
         self.ui.pushButton_page2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
+        
+        # обращение к брокеру mosquitto.org
 
         self.client = mqtt.Client()
         self.client.connect("test.mosquitto.org")
-
-        self.start_take()
         
+        self.start_take()       
         self.ui.btn_for_sendmessage2.clicked.connect(self.start_send)
         self.ui.textEdit_for_view2.setReadOnly(True)
 
@@ -55,6 +67,8 @@ class MainWindow(QMainWindow):
         self.center()
 
         self.hdd = psutil.disk_usage('/')
+
+        # список подписок
 
         list_for_publish = [
             'mqtt/text/chat',
@@ -69,6 +83,9 @@ class MainWindow(QMainWindow):
         ]
 
         self.ui.comboBox_for_select_topic2.addItems(list_for_publish)
+
+
+    # функции, отключающие панель навигации
 
     def center(self):
         qr = self.frameGeometry()
@@ -88,7 +105,7 @@ class MainWindow(QMainWindow):
         except AttributeError:
             pass
 
-
+    # создание нового процесса, который отправляет сообщения
 
     def start_send(self):
         threading.Thread(target=self.public(self.client),daemon=True).start()
@@ -100,6 +117,8 @@ class MainWindow(QMainWindow):
 
 
         subtop = self.ui.comboBox_for_select_topic2.currentText()
+
+        # отображение информации на клиенте об отправляемой реакции 
 
         if subtop == 'device/memorystatus/harddrive/c':
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + '<'+ str(self.hdd.free / (2**30)) + '> ' + '\n')
@@ -136,6 +155,8 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit_for_writetext2.clear()
         
     
+    # новый процесс, который принимает сообщения
+
     def start_take(self):
         threading.Thread(target=self.take_message(self.client),daemon=True).start()
 
@@ -157,11 +178,14 @@ class MainWindow(QMainWindow):
         status = weather.detailed_status
         return temp,status
 
-        
+    # eсли пришло сообщение, вызываем метод на клиенте    
 
     def on_message(self,client,userdata,message):
         now = datetime.now()
         cur_time = now.strftime("%H:%M:%S")
+
+        # обработка принятого сообщения
+
         if message.topic == 'mqtt/example1':
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + message.payload.decode('utf-8') + '\n')
         
@@ -195,8 +219,9 @@ class MainWindow(QMainWindow):
             self.ui.textEdit_for_view2.insertPlainText('['+ cur_time + '] ' + message.topic + ' ' + message.payload.decode('utf-8') + '\n')
 
     
+    # метод подписки на сообщения
+
     def take_message(self,client):
-        # client.connect("localhost")
         self.client.subscribe('mqtt/example1') 
         self.client.subscribe('device/ip')
         self.client.subscribe('mqtt/picture')
@@ -209,6 +234,8 @@ class MainWindow(QMainWindow):
 
         self.client.loop_start()
         client.on_message = self.on_message
+
+# конструкция, которая даёт возможность запуска файла
 
 if __name__ == "__main__":
 	app = QApplication(sys.argv)
